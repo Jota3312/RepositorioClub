@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir Competición</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"/>
+    <style>
+        body {
+            background-color: rgb(245, 245, 245);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+        }
+
+        .card-body {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .btn-custom {
+            font-size: 16px;
+            padding: 12px 25px;
+            border-radius: 30px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-custom i {
+            margin-right: 8px;
+        }
+
+        .btn-cancel {
+            background-color: #dc3545;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-4">Añadir Competición</h4>
+            <form th:action="@{/competiciones/save}" th:object="${competicion}" method="post">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <label for="montoPremio">Monto premio</label>
+                    <input type="text" th:field="*{montoPremio}" class="form-control" id="montoPremio" placeholder="Monto premio" pattern="[0-9]*">
+                </div>
+                <div class="form-group">
+                    <label for="fechaInicio">Fecha inicio</label>
+                    <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio">
+                </div>
+                <div class="form-group">
+                    <label for="fechaFin">Fecha fin</label>
+                    <input type="date" th:field="*{fechaFin}" class="form-control" id="fechaFin">
+                </div>
+                <div class="d-flex justify-content-between">
+                    <input type="submit" class="btn btn-custom" value="Enviar">
+                    <a th:href="@{/competiciones}" class="btn btn-custom btn-cancel">
+                        <i class="fas fa-times-circle"></i>Cancelar
+                    </a>
+                </div>
+                <input type="hidden" id="id" th:field="*{id}">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir Club</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"/>
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        label {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+        }
+
+        select {
+            color: #495057;
+        }
+
+        .btn-custom {
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-cancel {
+            background-color: #6c757d;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+
+        th {
+            color: white;
+            background-color: #007bff;
+        }
+
+        td {
+            color: black;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="text-center mb-4">Añadir Club</h1>
+            <form th:action="@{/clubes/save}" th:object="${club}" method="post">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <label for="entrenador">Entrenador</label>
+                    <select class="form-control" id="entrenador" name="entrenador">
+                        <option th:each="entrenador : ${entrenadoresList}"
+                                th:value="${entrenador.id}"
+                                th:text="${entrenador.nombre + ' ' + entrenador.apellido}"
+                                th:selected="${entrenador.id == club.entrenador?.id}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="asociacion">Asociación</label>
+                    <select class="form-control" id="asociacion" name="asociacion">
+                        <option th:each="asociacion : ${asociacionesList}"
+                                th:value="${asociacion.id}"
+                                th:text="${asociacion.nombre}"
+                                th:selected="${asociacion.id == club.asociacion?.id}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="jugadores">Jugadores</label>
+                    <select class="form-control" id="jugadores" name="jugadores" multiple>
+                        <option th:each="jugador : ${jugadoresList}"
+                                th:value="${jugador.id}"
+                                th:text="${jugador.nombre + ' ' + jugador.apellido}"
+                                th:selected="${club.jugadores != null and #lists.contains(club.jugadores, jugador)}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="competiciones">Competiciones</label>
+                    <select class="form-control" id="competiciones" name="competiciones" multiple>
+                        <option th:each="competicion : ${competicionesList}"
+                                th:value="${competicion.id}"
+                                th:text="${competicion.nombre}"
+                                th:selected="${club.competiciones != null and #lists.contains(club.competiciones, competicion)}"></option>
+                    </select>
+                </div>
+                <input type="hidden" id="id" th:field="*{id}">
+                <div class="btn-container">
+                    <input type="submit" class="btn btn-custom" value="Enviar">
+                    <a th:href="@{/clubes}" class="btn btn-custom btn-cancel">
+                        <i class="fas fa-times-circle"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
