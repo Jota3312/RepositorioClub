@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Competiciones</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"/>
+    <style>
+        body {
+            background-color: #e0f7fa; /* Color más suave */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+
+        .card-body {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 0px;
+        }
+
+        .btn-secondary, .btn-primary {
+            color: white; /* Color de texto blanco */
+        }
+
+        .btn-custom {
+            font-size: 18px;
+            margin-right: 10px;
+            padding: 12px 20px;
+            border-radius: 30px;
+            background-color: rgb(255, 255, 0);
+            color: black;
+            border: none;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: rgb(0, 0, 128);
+        }
+
+        .btn-custom i {
+            margin-right: 5px;
+        }
+
+        th {
+            color: white;
+            background-color: rgb(0, 0, 128);
+        }
+
+        td {
+            color: black;
+        }
+
+        table {
+            margin-top: 20px;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f1f1; /* Efecto hover en filas */
+        }
+
+        h2 {
+            color: rgb(0, 0, 128);
+            text-align: center; /* Centrar título */
+        }
+    </style>
+</head>
+<body>
+<div class="container my-5">
+    <div class="card">
+        <div class="card-body">
+            <div class="my-4 d-flex justify-content-between align-items-center">
+                <a th:href="@{/}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Regresar
+                </a>
+                <a th:href="@{/competiciones/new}" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Agregar Competición
+                </a>
+            </div>
+            <div th:switch="${competiciones}">
+                <div th:case="null">
+                    <h2>No se encontraron registros</h2>
+                </div>
+                <div th:case="*">
+                    <div class="col-md-12">
+                        <table class="table table-striped table-responsive-md">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Monto premio</th>
+                                <th>Fecha inicio</th>
+                                <th>Fecha fin</th>
+                                <th colspan="2">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="competicion : ${competiciones}">
+                                <td th:text="${competicion.nombre}"></td>
+                                <td th:text="${competicion.montoPremio}"></td>
+                                <td th:text="${competicion.fechaInicio}"></td>
+                                <td th:text="${competicion.fechaFin}"></td>
+                                <td>
+                                    <a th:href="@{/competiciones/edit/{id}(id=${competicion.id})}" class="btn btn-custom">
+                                        <i class="fas fa-user-edit"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/competiciones/delete/{id}(id=${competicion.id})}" class="btn btn-custom">
+                                        <i class="fas fa-user-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
